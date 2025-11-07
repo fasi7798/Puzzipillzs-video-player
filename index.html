@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VideoHub - Premium Video Gallery</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ===== RESET & VARIABLES ===== */
+        :root {
+            --primary: #ff4757;
+            --primary-dark: #e84118;
+            --secondary: #2f3542;
+            --accent: #3742fa;
+            --dark: #1e272e;
+            --light: #f1f2f6;
+            --text: #2f3542;
+            --text-light: #747d8c;
+            --success: #2ed573;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a1a 100%);
+            color: var(--light);
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* ===== HEADER & NAVIGATION ===== */
+        .header {
+            background: rgba(30, 30, 30, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 2px solid var(--primary);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--shadow);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 0 20px rgba(255, 71, 87, 0.4);
+            position: relative;
+            animation: logoGlow 3s ease-in-out infinite alternate;
+            transition: var(--transition);
+        }
+
+        @keyframes logoGlow {
+            0% { box-shadow: 0 0 20px rgba(255, 71, 87, 0.4); }
+            100% { box-shadow: 0 0 30px rgba(255, 71, 87, 0.8); }
+        }
+
+        .logo:hover {
+            transform: rotate(15deg) scale(1.1);
+        }
+
+        .logo i {
+            color: white;
+            font-size: 1.8rem;
+        }
+
+        .website-info h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, var(--primary), #ff9ff3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 1px;
+        }
+
+        .website-info p {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            font-weight: 300;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+            background: rgba(255, 71, 87, 0.1);
+        }
+
+        .nav-links a.active {
+            color: var(--primary);
+            background: rgba(255, 71, 87, 0.2);
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            padding: 0.5rem 1rem;
+            gap: 0.5rem;
+            transition: var(--transition);
+        }
+
+        .search-bar:focus-within {
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 0 2px var(--primary);
+        }
+
+        .search-bar input {
+            background: transparent;
+            border: none;
+            color: var(--light);
+            font-size: 0.9rem;
+            width: 200px;
+            outline: none;
+        }
+
+        .search-bar i {
+            color: var(--text-light);
+        }
+
+        /* ===== FILTERS & CONTROLS ===== */
+        .filters-section {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .filters-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .filter-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--light);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.85rem;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .sort-select {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--light);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        /* ===== VIDEO GALLERY ===== */
+        .video-gallery {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .gallery-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .gallery-stats {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .videos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .video-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: var(--transition);
+            cursor: pointer;
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: cardSlideIn 0.6s ease forwards;
+            opacity: 0;
+        }
+
+        @keyframes cardSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .video-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            border-color: var(--primary);
+        }
+
+        .video-thumbnail-container {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .video-thumbnail {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .video-card:hover .video-thumbnail {
+            transform: scale(1.1);
+        }
+
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, 0.8));
+            display: flex;
+            align-items: flex-end;
+            padding: 1rem;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .video-card:hover .video-overlay {
+            opacity: 1;
+        }
+
+        .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 71, 87, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            transition: var(--transition);
+            opacity: 0;
+        }
+
+        .video-card:hover .play-button {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        .video-duration {
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .video-info {
+            padding: 1.5rem;
+        }
+
+        .video-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: var(--light);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .video-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+
+        .video-category {
+            background: var(--accent);
+            color: white;
+            padding: 0.2rem 0.8rem;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 500;
+        }
+
+        .video-stats {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+
+        .video-description {
+            color: var(--text-light);
+            font-size: 0.85rem;
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /* ===== VIDEO MODAL ===== */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+            animation: modalFadeIn 0.3s ease;
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            width: 90%;
+            max-width: 1000px;
+            background: var(--dark);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            background: rgba(0, 0, 0, 0.5);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .modal-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .close-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: var(--light);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 1.2rem;
+        }
+
+        .close-btn:hover {
+            background: var(--primary);
+            transform: rotate(90deg);
+        }
+
+        .modal-video-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+        }
+
+        .modal-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .modal-info {
+            padding: 1.5rem;
+        }
+
+        .modal-stats {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 1rem;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .modal-description {
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        /* ===== PAGINATION ===== */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            padding: 3rem 2rem;
+        }
+
+        .page-btn {
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--light);
+            text-decoration: none;
+            border-radius: 10px;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .page-btn:hover, .page-btn.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .pagination-nav {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .nav-btn {
+            padding: 0.8rem 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--light);
+            text-decoration: none;
+            border-radius: 10px;
+            transition: var(--transition);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-btn:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        /* ===== LOADING SKELETON ===== */
+        .skeleton {
+            background: linear-gradient(90deg, rgba(255,255,255,0.1) 25%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.1) 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+            border-radius: 8px;
+        }
+
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        .skeleton-thumbnail {
+            height: 200px;
+            width: 100%;
+        }
+
+        .skeleton-text {
+            height: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .skeleton-text.short {
+            width: 60%;
+        }
+
+        /* ===== RESPONSIVE DESIGN ===== */
+        @media (max-width: 1024px) {
+            .videos-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+                gap: 1.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 0 1rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .search-bar input {
+                width: 150px;
+            }
+
+            .filters-container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .videos-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 1rem;
+            }
+
+            .modal-content {
+                width: 95%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .website-info h1 {
+                font-size: 1.8rem;
+            }
+
+            .videos-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .pagination {
+                flex-wrap: wrap;
+            }
+
+            .nav-btn span {
+                display: none;
+            }
+        }
+
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-dark);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <div class="container">
+            <div class="logo-container">
+                <div class="logo">
+                    <i class="fas fa-play-circle"></i>
+                </div>
+                <div class="website-info">
+                    <h1>VideoHub</h1>
+                    <p>Premium video content for every taste</p>
+                </div>
+            </div>
+            
+            <div class="nav-links">
+                <a href="#" class="active"><i class="fas fa-home"></i> Home</a>
+                <a href="#"><i class="fas fa-fire"></i> Trending</a>
+                <a href="#"><i class="fas fa-history"></i> History</a>
+                <a href="#"><i class="fas fa-heart"></i> Favorites</a>
+            </div>
+            
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search videos..." id="searchInput">
+            </div>
+        </div>
+    </header>
+
+    <!-- Filters Section -->
+    <section class="filters-section">
+        <div class="filters-container">
+            <div class="filter-group">
+                <span>Categories:</span>
+                <button class="filter-btn active">All</button>
+                <button class="filter-btn">Music</button>
+                <button class="filter-btn">Gaming</button>
+                <button class="filter-btn">Education</button>
+                <button class="filter-btn">Entertainment</button>
+                <button class="filter-btn">Sports</button>
+            </div>
+            
+            <div class="filter-group">
+                <span>Sort by:</span>
+                <select class="sort-select" id="sortSelect">
+                    <option>Newest First</option>
+                    <option>Most Popular</option>
+                    <option>Trending</option>
+                    <option>A-Z</option>
+                </select>
+            </div>
+        </div>
+    </section>
+
+    <!-- Video Gallery -->
+    <main class="video-gallery">
+        <div class="gallery-header">
+            <h2>Featured Videos</h2>
+            <div class="gallery-stats">
+                <span id="videoCount">12 videos</span>
+            </div>
+        </div>
+        
+        <div class="videos-grid" id="videosGrid">
+            <!-- Video cards will be dynamically loaded -->
+        </div>
+    </main>
+
+    <!-- Video Modal -->
+    <div id="videoModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">Video Title</h3>
+                <button class="close-btn" onclick="closeVideo()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-video-container">
+                <video controls class="modal-video" id="modalVideo">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            <div class="modal-info">
+                <div class="modal-stats">
+                    <span><i class="fas fa-eye"></i> 245K views</span>
+                    <span><i class="fas fa-calendar"></i> 2 days ago</span>
+                    <span><i class="fas fa-clock"></i> 15:30</span>
+                </div>
+                <p class="modal-description" id="modalDescription">Video description will appear here.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination">
+        <div class="pagination-nav">
+            <a href="#" class="nav-btn">
+                <i class="fas fa-chevron-left"></i>
+                <span>Previous</span>
+            </a>
+        </div>
+        
+        <div class="pagination-numbers">
+            <a href="#" class="page-btn">1</a>
+            <a href="#" class="page-btn active">2</a>
+            <a href="#" class="page-btn">3</a>
+            <a href="#" class="page-btn">4</a>
+            <a href="#" class="page-btn">5</a>
+        </div>
+        
+        <div class="pagination-nav">
+            <a href="#" class="nav-btn">
+                <span>Next</span>
+                <i class="fas fa-chevron-right"></i>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Sample video data
+        const videos = [
+            {
+                id: 1,
+                title: "Amazing Nature Documentary",
+                description: "Explore the breathtaking beauty of nature in this stunning documentary featuring wildlife and landscapes from around the world.",
+                thumbnail: "https://images.unsplash.com/photo-1501854140801-50d01698950b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                video: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+                duration: "15:30",
+                views: "245K",
+                date: "2 days ago",
+                category: "Nature"
+            },
+            {
+                id: 1,
+                title: "Amazing Nature Documentary",
+                description: "Explore the breathtaking beauty of nature in this stunning documentary featuring wildlife and landscapes from around the world.",
+                thumbnail: "https://images.unsplash.com/photo-1501854140801-50d01698950b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                video: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+                duration: "15:30",
+                views: "245K",
+                date: "2 days ago",
+                category: "Nature"
+            },
+            {
+                id: 1,
+                title: "Amazing Nature Documentary",
+                description: "Explore the breathtaking beauty of nature in this stunning documentary featuring wildlife and landscapes from around the world.",
+                thumbnail: "https://images.unsplash.com/photo-1501854140801-50d01698950b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                video: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+                duration: "15:30",
+                views: "245K",
+                date: "2 days ago",
+                category: "Nature"
+            },
+            {
+                id: 1,
+                title: "Amazing Nature Documentary",
+                description: "Explore the breathtaking beauty of nature in this stunning documentary featuring wildlife and landscapes from around the world.",
+                thumbnail: "https://images.unsplash.com/photo-1501854140801-50d01698950b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                video: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+                duration: "15:30",
+                views: "245K",
+                date: "2 days ago",
+                category: "Nature"
+            },
+            {
+                id: 2,
+                title: "Epic Gaming Moments Compilation",
+                description: "The most incredible gaming moments from top streamers and professional players across various games.",
+                thumbnail: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                video: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+                duration: "22:15",
+                views: "1.2M",
+                date: "1 week ago",
+                category: "Gaming"
+            },
+            {
+                id: 3,
+                title: "Learn JavaScript in 30 Minutes",
+                description: "A comprehensive tutorial covering the fundamentals of JavaScript programming for beginners.",
+                thumbnail: "https://images.unsplash.com/photo-1627398242454-45a1465c2479?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                video: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+                duration: "28:45",
+                views: "89K",
+                date: "3 days ago",
+                category: "Education"
+            },
+            {
+                id: 4,
+                title: "Top 10 Football Goals of 2024",
+                description: "Watch the most spectacular goals from professional football leagues around the world this year.",
+                thumbnail: "https://images.unsplash.com/photo-1575361204480-aadea25e6e68?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                video: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+                duration: "18:20",
+                views: "356K",
+                date: "5 days ago",
+                category: "Sports"
+            },
+            {
+                id: 5,
+                title: "Music Festival Highlights 2024",
+                description: "Experience the energy and excitement of the biggest music festivals from around the globe.",
+                thumbnail: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                video: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
+                duration: "25:10",
+                views: "512K",
+                date: "1 week ago",
+                category: "Music"
+            },
+            {
+                id: 6,
+                title: "Comedy Sketches Compilation",
+                description: "Laugh out loud with this collection of the funniest comedy sketches from popular creators.",
+                thumbnail: "https://images.unsplash.com/photo-1541336032412-2048a678540d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                video: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
+                duration: "32:45",
+                views: "678K",
+                date: "4 days ago",
+                category: "Entertainment"
+            }
+        ];
+
+        // Initialize the gallery
+        document.addEventListener('DOMContentLoaded', function() {
+            renderVideos(videos);
+            setupEventListeners();
+        });
+
+        // Render videos to the grid
+        function renderVideos(videosToRender) {
+            const grid = document.getElementById('videosGrid');
+            grid.innerHTML = '';
+            
+            videosToRender.forEach((video, index) => {
+                const card = document.createElement('div');
+                card.className = 'video-card';
+                card.style.animationDelay = `${index * 0.1}s`;
+                card.innerHTML = `
+                    <div class="video-thumbnail-container">
+                        <img src="${video.thumbnail}" alt="${video.title}" class="video-thumbnail">
+                        <div class="video-overlay">
+                            <span class="video-duration">${video.duration}</span>
+                        </div>
+                        <div class="play-button">
+                            <i class="fas fa-play"></i>
+                        </div>
+                    </div>
+                    <div class="video-info">
+                        <h3 class="video-title">${video.title}</h3>
+                        <div class="video-meta">
+                            <span class="video-category">${video.category}</span>
+                            <div class="video-stats">
+                                <span><i class="fas fa-eye"></i> ${video.views}</span>
+                                <span><i class="fas fa-calendar"></i> ${video.date}</span>
+                            </div>
+                        </div>
+                        <p class="video-description">${video.description}</p>
+                    </div>
+                `;
+                
+                card.addEventListener('click', () => openVideo(video));
+                grid.appendChild(card);
+            });
+            
+            // Update video count
+            document.getElementById('videoCount').textContent = `${videosToRender.length} videos`;
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Search functionality
+            const searchInput = document.getElementById('searchInput');
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                const filteredVideos = videos.filter(video => 
+                    video.title.toLowerCase().includes(searchTerm) || 
+                    video.description.toLowerCase().includes(searchTerm) ||
+                    video.category.toLowerCase().includes(searchTerm)
+                );
+                renderVideos(filteredVideos);
+            });
+
+            // Filter buttons
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const category = this.textContent;
+                    if (category === 'All') {
+                        renderVideos(videos);
+                    } else {
+                        const filteredVideos = videos.filter(video => video.category === category);
+                        renderVideos(filteredVideos);
+                    }
+                });
+            });
+
+            // Sort functionality
+            const sortSelect = document.getElementById('sortSelect');
+            sortSelect.addEventListener('change', function() {
+                const sortBy = this.value;
+                let sortedVideos = [...videos];
+                
+                switch(sortBy) {
+                    case 'Newest First':
+                        // Already sorted by ID (newest first)
+                        break;
+                    case 'Most Popular':
+                        sortedVideos.sort((a, b) => {
+                            const aViews = parseFloat(a.views) * (a.views.includes('M') ? 1000000 : 1000);
+                            const bViews = parseFloat(b.views) * (b.views.includes('M') ? 1000000 : 1000);
+                            return bViews - aViews;
+                        });
+                        break;
+                    case 'A-Z':
+                        sortedVideos.sort((a, b) => a.title.localeCompare(b.title));
+                        break;
+                }
+                
+                renderVideos(sortedVideos);
+            });
+        }
+
+        // Open video modal
+        function openVideo(video) {
+            const modal = document.getElementById('videoModal');
+            const modalVideo = document.getElementById('modalVideo');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalDescription = document.getElementById('modalDescription');
+            
+            modalVideo.src = video.video;
+            modalTitle.textContent = video.title;
+            modalDescription.textContent = video.description;
+            
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+            
+            // Play video
+            modalVideo.play().catch(e => console.log('Autoplay prevented:', e));
+        }
+
+        // Close video modal
+        function closeVideo() {
+            const modal = document.getElementById('videoModal');
+            const modalVideo = document.getElementById('modalVideo');
+            
+            modalVideo.pause();
+            modalVideo.src = '';
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal when clicking outside
+        window.addEventListener('click', (e) => {
+            const modal = document.getElementById('videoModal');
+            if (e.target === modal) {
+                closeVideo();
+            }
+        });
+
+        // Keyboard controls
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeVideo();
+            }
+        });
+    </script>
+</body>
+</html>
