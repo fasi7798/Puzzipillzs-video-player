@@ -455,7 +455,7 @@
             padding-bottom: 56.25%; /* 16:9 aspect ratio */
         }
 
-        .modal-video {
+        .modal-iframe {
             position: absolute;
             top: 0;
             left: 0;
@@ -756,9 +756,12 @@
                 </button>
             </div>
             <div class="modal-video-container">
-                <video controls class="modal-video" id="modalVideo">
-                    Your browser does not support the video tag.
-                </video>
+                <iframe class="modal-iframe" id="modalIframe" 
+                        src="" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen>
+                </iframe>
             </div>
             <div class="modal-info">
                 <div class="modal-stats">
@@ -797,47 +800,14 @@
     </div>
 
     <script>
-        // Sample video data
+        // Sample video data with iframe embed URLs
         const videos = [
             {
                 id: 1,
                 title: "Post No 9",
-                description: "Explore the breathtaking beauty of nature in this stunning documentary featuring wildlife and landscapes from around the world.",
-                thumbnail: "https://images.unsplash.com/photo-1501854140801-50d01698950b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-                video: "https://1024terabox.com/s/1GFhzjo08rGQVd4iFXlQU3g",
-                duration: "15:30",
-                views: "245K",
-                date: "2 days ago",
-                category: "Nature"
-            },
-            {
-                id: 1,
-                title: "Post No 8",
-                description: "Explore the breathtaking beauty of nature in this stunning documentary featuring wildlife and landscapes from around the world.",
-                thumbnail: "https://images.unsplash.com/photo-1501854140801-50d01698950b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-                video: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
-                duration: "15:30",
-                views: "245K",
-                date: "2 days ago",
-                category: "Nature"
-            },
-            {
-                id: 1,
-                title: "Post No 7",
-                description: "Explore the breathtaking beauty of nature in this stunning documentary featuring wildlife and landscapes from around the world.",
-                thumbnail: "https://images.unsplash.com/photo-1501854140801-50d01698950b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-                video: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
-                duration: "15:30",
-                views: "245K",
-                date: "2 days ago",
-                category: "Nature"
-            },
-            {
-                id: 1,
-                title: "Post No 6",
-                description: "Explore the breathtaking beauty of nature in this stunning documentary featuring wildlife and landscapes from around the world.",
-                thumbnail: "https://images.unsplash.com/photo-1501854140801-50d01698950b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-                video: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+                description: "[BrazzersExxtra] Harlow West, Lucy Foxx (Professional Cum Dodger / 11.14.2025)",
+                thumbnail: "photo/post no 1.jpg",
+                video: "https://mxdrop.to/e/q1dgdmrduo10xl",
                 duration: "15:30",
                 views: "245K",
                 date: "2 days ago",
@@ -845,54 +815,87 @@
             },
             {
                 id: 2,
+                title: "Post No 8",
+                description: "Explore the breathtaking beauty of nature in this stunning documentary featuring wildlife and landscapes from around the world.",
+                thumbnail: "photo/post no 1.jpg",
+                video: "https://www.youtube.com/embed/YOUR_VIDEO_ID_HERE",
+                duration: "15:30",
+                views: "245K",
+                date: "2 days ago",
+                category: "Nature"
+            },
+            {
+                id: 3,
+                title: "Post No 7",
+                description: "Explore the breathtaking beauty of nature in this stunning documentary featuring wildlife and landscapes from around the world.",
+                thumbnail: "https://images.unsplash.com/photo-1501854140801-50d01698950b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                video: "https://www.youtube.com/embed/YOUR_VIDEO_ID_HERE",
+                duration: "15:30",
+                views: "245K",
+                date: "2 days ago",
+                category: "Nature"
+            },
+            {
+                id: 4,
+                title: "Post No 6",
+                description: "Explore the breathtaking beauty of nature in this stunning documentary featuring wildlife and landscapes from around the world.",
+                thumbnail: "https://images.unsplash.com/photo-1501854140801-50d01698950b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                video: "https://www.youtube.com/embed/YOUR_VIDEO_ID_HERE",
+                duration: "15:30",
+                views: "245K",
+                date: "2 days ago",
+                category: "Nature"
+            },
+            {
+                id: 5,
                 title: "Post No 5",
                 description: "The most incredible gaming moments from top streamers and professional players across various games.",
                 thumbnail: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-                video: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+                video: "https://www.youtube.com/embed/YOUR_VIDEO_ID_HERE",
                 duration: "22:15",
                 views: "1.2M",
                 date: "1 week ago",
                 category: "Gaming"
             },
             {
-                id: 3,
+                id: 6,
                 title: "Post No 4",
                 description: "A comprehensive tutorial covering the fundamentals of JavaScript programming for beginners.",
                 thumbnail: "https://images.unsplash.com/photo-1627398242454-45a1465c2479?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-                video: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+                video: "https://www.youtube.com/embed/YOUR_VIDEO_ID_HERE",
                 duration: "28:45",
                 views: "89K",
                 date: "3 days ago",
                 category: "Education"
             },
             {
-                id: 4,
+                id: 7,
                 title: "Post No 3",
                 description: "Watch the most spectacular goals from professional football leagues around the world this year.",
                 thumbnail: "https://images.unsplash.com/photo-1575361204480-aadea25e6e68?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-                video: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+                video: "https://www.youtube.com/embed/YOUR_VIDEO_ID_HERE",
                 duration: "18:20",
                 views: "356K",
                 date: "5 days ago",
                 category: "Sports"
             },
             {
-                id: 5,
+                id: 8,
                 title: "Post No 2",
                 description: "Experience the energy and excitement of the biggest music festivals from around the globe.",
                 thumbnail: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-                video: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
+                video: "https://www.youtube.com/embed/YOUR_VIDEO_ID_HERE",
                 duration: "25:10",
                 views: "512K",
                 date: "1 week ago",
                 category: "Music"
             },
             {
-                id: 6,
+                id: 9,
                 title: "Post No 1",
                 description: "Laugh out loud with this collection of the funniest comedy sketches from popular creators.",
                 thumbnail: "https://images.unsplash.com/photo-1541336032412-2048a678540d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-                video: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
+                video: "https://www.youtube.com/embed/YOUR_VIDEO_ID_HERE",
                 duration: "32:45",
                 views: "678K",
                 date: "4 days ago",
@@ -1006,28 +1009,34 @@
         // Open video modal
         function openVideo(video) {
             const modal = document.getElementById('videoModal');
-            const modalVideo = document.getElementById('modalVideo');
+            const modalIframe = document.getElementById('modalIframe');
             const modalTitle = document.getElementById('modalTitle');
             const modalDescription = document.getElementById('modalDescription');
             
-            modalVideo.src = video.video;
+            // Set iframe source
+            modalIframe.src = video.video;
             modalTitle.textContent = video.title;
             modalDescription.textContent = video.description;
             
+            // Update modal stats
+            const modalStats = document.querySelector('.modal-stats');
+            modalStats.innerHTML = `
+                <span><i class="fas fa-eye"></i> ${video.views} views</span>
+                <span><i class="fas fa-calendar"></i> ${video.date}</span>
+                <span><i class="fas fa-clock"></i> ${video.duration}</span>
+            `;
+            
             modal.style.display = 'flex';
             document.body.style.overflow = 'hidden';
-            
-            // Play video
-            modalVideo.play().catch(e => console.log('Autoplay prevented:', e));
         }
 
         // Close video modal
         function closeVideo() {
             const modal = document.getElementById('videoModal');
-            const modalVideo = document.getElementById('modalVideo');
+            const modalIframe = document.getElementById('modalIframe');
             
-            modalVideo.pause();
-            modalVideo.src = '';
+            // Stop the iframe video by removing the src
+            modalIframe.src = '';
             modal.style.display = 'none';
             document.body.style.overflow = 'auto';
         }
