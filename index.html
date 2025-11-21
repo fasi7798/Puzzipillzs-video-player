@@ -503,6 +503,18 @@
             transform: translateY(-2px);
         }
 
+        /* ===== MOBILE FIXES ===== */
+        .mobile-alert {
+            display: none;
+            background: #ff9800;
+            color: #000;
+            padding: 15px;
+            text-align: center;
+            font-weight: 600;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+
         /* ===== PAGINATION ===== */
         .pagination {
             display: flex;
@@ -556,17 +568,6 @@
             background: var(--primary);
             border-color: var(--primary);
             transform: translateY(-3px);
-        }
-
-        /* ===== EMBED WARNING ===== */
-        .embed-warning {
-            background: #ff9800;
-            color: #000;
-            padding: 10px;
-            border-radius: 5px;
-            margin: 10px 0;
-            font-size: 14px;
-            text-align: center;
         }
 
         /* ===== RESPONSIVE DESIGN ===== */
@@ -630,6 +631,10 @@
 
             .modal-stats {
                 gap: 1rem;
+            }
+
+            .mobile-alert {
+                display: block;
             }
         }
 
@@ -733,6 +738,11 @@
         </div>
     </header>
 
+    <!-- Mobile Alert -->
+    <div class="mobile-alert">
+        <i class="fas fa-mobile-alt"></i> For best experience on mobile, videos will open in new window
+    </div>
+
     <!-- Filters Section -->
     <section class="filters-section">
         <div class="filters-container">
@@ -782,11 +792,6 @@
                 </button>
             </div>
             
-            <div class="embed-warning" id="embedWarning" style="display: none;">
-                <i class="fas fa-exclamation-triangle"></i> 
-                This link may not be embeddable. Opening in new tab...
-            </div>
-            
             <div class="modal-video-container">
                 <iframe class="modal-iframe" id="modalIframe" 
                         src="" 
@@ -804,7 +809,7 @@
                 </div>
                 <p class="modal-description" id="modalDescription">Video description will appear here.</p>
                 <a href="#" class="download-btn" id="downloadLink" target="_blank">
-                    <i class="fas fa-external-link-alt"></i> Watch on Source Site
+                    <i class="fas fa-external-link-alt"></i> Open in New Tab
                 </a>
             </div>
         </div>
@@ -836,50 +841,32 @@
     </div>
 
     <script>
-        // Sample video data with PROPER embed URLs
+        // Sample video data with mxdrop.to embed links
         const videos = [
             {
                 id: 1,
                 title: "Post No 1",
                 description: "[BrazzersExxtra] Harlow West, Lucy Foxx (Professional Cum Dodger / 11.14.2025)",
                 thumbnail: "images/post no 1.jpg",
-                video: "https://mdy48tn97.com/f/q1dgdmrduo10xl", // This is NOT an embed URL
-                download: "https://mdy48tn97.com/f/q1dgdmrduo10xl",
+                video: "https://mxdrop.to/e/q1dgdmrduo10xl",
+                download: "https://mxdrop.to/e/q1dgdmrduo10xl",
                 duration: "30:15",
                 views: "245K",
                 date: "2 days ago",
-                category: "Step Sister",
-                isEmbeddable: false // Mark as non-embeddable
+                category: "Step Sister"
             },
             {
                 id: 2,
-                title: "Post No 2", 
+                title: "Post No 2",
                 description: "[BrazzersExxtra] Harlow West, Lucy Foxx (Professional Cum Dodger / 11.14.2025)",
                 thumbnail: "images/post no 1.jpg",
-                video: "https://mdy48tn97.com/f/q1dgdmrduo10xl", // This is NOT an embed URL
-                download: "https://mdy48tn97.com/f/q1dgdmrduo10xl",
+                video: "https://mxdrop.to/e/q1dgdmrduo10xl",
+                download: "https://mxdrop.to/e/q1dgdmrduo10xl",
                 duration: "30:15",
                 views: "245K",
                 date: "2 days ago",
-                category: "Step Sister",
-                isEmbeddable: false // Mark as non-embeddable
-            },
-            // EXAMPLE OF PROPER EMBED URLS (uncomment to use):
-            
-            {
-                id: 3,
-                title: "YouTube Example",
-                description: "This is a proper YouTube embed",
-                thumbnail: "images/thumbnail3.jpg",
-                video: "https://mxdrop.to/e/q1dgdmrduo10xl", // REAL embed URL
-                download: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                duration: "3:45",
-                views: "1.2M",
-                date: "1 week ago",
-                category: "Music",
-                isEmbeddable: true
+                category: "Step Sister"
             }
-            
         ];
 
         // Initialize the gallery
@@ -987,6 +974,15 @@
 
         // Open video modal
         function openVideo(video) {
+            const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            
+            if (isMobile) {
+                // On mobile, open directly in new tab for better compatibility
+                window.open(video.download, '_blank');
+                return;
+            }
+            
+            // On desktop, use modal with iframe
             const modal = document.getElementById('videoModal');
             const modalIframe = document.getElementById('modalIframe');
             const modalTitle = document.getElementById('modalTitle');
@@ -995,33 +991,9 @@
             const modalViews = document.getElementById('modalViews');
             const modalDate = document.getElementById('modalDate');
             const modalDuration = document.getElementById('modalDuration');
-            const embedWarning = document.getElementById('embedWarning');
             
-            // Check if the URL is embeddable
-            const isEmbeddable = video.isEmbeddable || 
-                                video.video.includes('youtube.com/embed') || 
-                                video.video.includes('player.vimeo.com') ||
-                                video.video.includes('.mp4') ||
-                                video.video.includes('.webm');
-            
-            if (!isEmbeddable) {
-                // For non-embeddable links, show warning and open in new tab
-                embedWarning.style.display = 'block';
-                modalIframe.style.display = 'none';
-                
-                // Auto-open in new tab after short delay
-                setTimeout(() => {
-                    window.open(video.download, '_blank');
-                    closeVideo();
-                }, 1500);
-            } else {
-                // For embeddable links, show in iframe
-                embedWarning.style.display = 'none';
-                modalIframe.style.display = 'block';
-                modalIframe.src = video.video;
-            }
-            
-            // Set modal content
+            // Set iframe source
+            modalIframe.src = video.video;
             modalTitle.textContent = video.title;
             modalDescription.textContent = video.description;
             downloadLink.href = video.download;
@@ -1039,12 +1011,9 @@
         function closeVideo() {
             const modal = document.getElementById('videoModal');
             const modalIframe = document.getElementById('modalIframe');
-            const embedWarning = document.getElementById('embedWarning');
             
             // Stop the iframe video by removing the src
             modalIframe.src = '';
-            modalIframe.style.display = 'block';
-            embedWarning.style.display = 'none';
             modal.style.display = 'none';
             document.body.style.overflow = 'auto';
         }
@@ -1063,6 +1032,17 @@
                 closeVideo();
             }
         });
+
+        // Handle Instagram browser
+        function isInstagramBrowser() {
+            return navigator.userAgent.includes('Instagram');
+        }
+
+        // Special handling for Instagram
+        if (isInstagramBrowser()) {
+            document.querySelector('.mobile-alert').innerHTML = 
+                '<i class="fas fa-info-circle"></i> For best experience in Instagram, please open in browser';
+        }
     </script>
 </body>
 </html>
