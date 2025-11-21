@@ -398,6 +398,7 @@
             justify-content: center;
             backdrop-filter: blur(10px);
             animation: modalFadeIn 0.3s ease;
+            padding: 20px;
         }
 
         @keyframes modalFadeIn {
@@ -406,7 +407,7 @@
         }
 
         .modal-content {
-            width: 90%;
+            width: 100%;
             max-width: 1000px;
             background: var(--dark);
             border-radius: 16px;
@@ -453,6 +454,7 @@
             position: relative;
             width: 100%;
             padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            background: #000;
         }
 
         .modal-iframe {
@@ -474,11 +476,13 @@
             margin-bottom: 1rem;
             color: var(--text-light);
             font-size: 0.9rem;
+            flex-wrap: wrap;
         }
 
         .modal-description {
             color: var(--text-light);
             line-height: 1.6;
+            margin-bottom: 1rem;
         }
 
         /* ===== DOWNLOAD BUTTON ===== */
@@ -554,31 +558,15 @@
             transform: translateY(-3px);
         }
 
-        /* ===== LOADING SKELETON ===== */
-        .skeleton {
-            background: linear-gradient(90deg, rgba(255,255,255,0.1) 25%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.1) 75%);
-            background-size: 200% 100%;
-            animation: loading 1.5s infinite;
-            border-radius: 8px;
-        }
-
-        @keyframes loading {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
-        }
-
-        .skeleton-thumbnail {
-            height: 200px;
-            width: 100%;
-        }
-
-        .skeleton-text {
-            height: 1rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .skeleton-text.short {
-            width: 60%;
+        /* ===== EMBED WARNING ===== */
+        .embed-warning {
+            background: #ff9800;
+            color: #000;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-size: 14px;
+            text-align: center;
         }
 
         /* ===== RESPONSIVE DESIGN ===== */
@@ -632,9 +620,16 @@
                 gap: 1rem;
             }
 
+            .modal {
+                padding: 10px;
+            }
+
             .modal-content {
-                width: 95%;
-                margin: 10px;
+                width: 100%;
+            }
+
+            .modal-stats {
+                gap: 1rem;
             }
         }
 
@@ -679,9 +674,15 @@
             }
 
             .modal-content {
-                width: 100%;
-                height: 100%;
                 border-radius: 0;
+            }
+
+            .modal-header {
+                padding: 1rem;
+            }
+
+            .modal-info {
+                padding: 1rem;
             }
         }
 
@@ -780,6 +781,12 @@
                     <i class="fas fa-times"></i>
                 </button>
             </div>
+            
+            <div class="embed-warning" id="embedWarning" style="display: none;">
+                <i class="fas fa-exclamation-triangle"></i> 
+                This link may not be embeddable. Opening in new tab...
+            </div>
+            
             <div class="modal-video-container">
                 <iframe class="modal-iframe" id="modalIframe" 
                         src="" 
@@ -788,6 +795,7 @@
                         allowfullscreen>
                 </iframe>
             </div>
+            
             <div class="modal-info">
                 <div class="modal-stats">
                     <span><i class="fas fa-eye"></i> <span id="modalViews">245K views</span></span>
@@ -796,7 +804,7 @@
                 </div>
                 <p class="modal-description" id="modalDescription">Video description will appear here.</p>
                 <a href="#" class="download-btn" id="downloadLink" target="_blank">
-                    <i class="fas fa-download"></i> Download Video
+                    <i class="fas fa-external-link-alt"></i> Watch on Source Site
                 </a>
             </div>
         </div>
@@ -828,32 +836,50 @@
     </div>
 
     <script>
-        // Sample video data with direct video links
+        // Sample video data with PROPER embed URLs
         const videos = [
             {
                 id: 1,
                 title: "Post No 1",
                 description: "[BrazzersExxtra] Harlow West, Lucy Foxx (Professional Cum Dodger / 11.14.2025)",
                 thumbnail: "images/post no 1.jpg",
-                video: "https://mxdrop.to/e/q1dgdmrduo10xl",
-                download: "https://mxdrop.to/e/q1dgdmrduo10xl", // Direct download link
+                video: "https://mdy48tn97.com/f/q1dgdmrduo10xl", // This is NOT an embed URL
+                download: "https://mdy48tn97.com/f/q1dgdmrduo10xl",
                 duration: "30:15",
                 views: "245K",
                 date: "2 days ago",
-                category: "Step Sister"
+                category: "Step Sister",
+                isEmbeddable: false // Mark as non-embeddable
             },
             {
                 id: 2,
-                title: "Post No 2",
+                title: "Post No 2", 
                 description: "[BrazzersExxtra] Harlow West, Lucy Foxx (Professional Cum Dodger / 11.14.2025)",
                 thumbnail: "images/post no 1.jpg",
-                video: "https://mxdrop.to/e/q1dgdmrduo10xl",
-                download: "https://mxdrop.to/e/q1dgdmrduo10xl", // Direct download link
+                video: "https://mdy48tn97.com/f/q1dgdmrduo10xl", // This is NOT an embed URL
+                download: "https://mdy48tn97.com/f/q1dgdmrduo10xl",
                 duration: "30:15",
                 views: "245K",
                 date: "2 days ago",
-                category: "Step Sister"
+                category: "Step Sister",
+                isEmbeddable: false // Mark as non-embeddable
+            },
+            // EXAMPLE OF PROPER EMBED URLS (uncomment to use):
+            
+            {
+                id: 3,
+                title: "YouTube Example",
+                description: "This is a proper YouTube embed",
+                thumbnail: "images/thumbnail3.jpg",
+                video: "https://mxdrop.to/e/q1dgdmrduo10xl", // REAL embed URL
+                download: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                duration: "3:45",
+                views: "1.2M",
+                date: "1 week ago",
+                category: "Music",
+                isEmbeddable: true
             }
+            
         ];
 
         // Initialize the gallery
@@ -873,7 +899,7 @@
                 card.style.animationDelay = `${index * 0.1}s`;
                 card.innerHTML = `
                     <div class="video-thumbnail-container">
-                        <img src="${video.thumbnail}" alt="${video.title}" class="video-thumbnail" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMzMzIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPk5vIEltYWdlPC90ZXh0Pjwvc3ZnPg=='">
+                        <img src="${video.thumbnail}" alt="${video.title}" class="video-thumbnail" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMzMzIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPlRodW1ibmFpbDwvdGV4dD48L3N2Zz4='">
                         <div class="video-overlay">
                             <span class="video-duration">${video.duration}</span>
                         </div>
@@ -969,9 +995,33 @@
             const modalViews = document.getElementById('modalViews');
             const modalDate = document.getElementById('modalDate');
             const modalDuration = document.getElementById('modalDuration');
+            const embedWarning = document.getElementById('embedWarning');
             
-            // Set iframe source
-            modalIframe.src = video.video;
+            // Check if the URL is embeddable
+            const isEmbeddable = video.isEmbeddable || 
+                                video.video.includes('youtube.com/embed') || 
+                                video.video.includes('player.vimeo.com') ||
+                                video.video.includes('.mp4') ||
+                                video.video.includes('.webm');
+            
+            if (!isEmbeddable) {
+                // For non-embeddable links, show warning and open in new tab
+                embedWarning.style.display = 'block';
+                modalIframe.style.display = 'none';
+                
+                // Auto-open in new tab after short delay
+                setTimeout(() => {
+                    window.open(video.download, '_blank');
+                    closeVideo();
+                }, 1500);
+            } else {
+                // For embeddable links, show in iframe
+                embedWarning.style.display = 'none';
+                modalIframe.style.display = 'block';
+                modalIframe.src = video.video;
+            }
+            
+            // Set modal content
             modalTitle.textContent = video.title;
             modalDescription.textContent = video.description;
             downloadLink.href = video.download;
@@ -983,23 +1033,18 @@
             
             modal.style.display = 'flex';
             document.body.style.overflow = 'hidden';
-            
-            // For mobile devices, try to open in new tab
-            if (/Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-                // On mobile, open download link directly
-                setTimeout(() => {
-                    window.open(video.download, '_blank');
-                }, 500);
-            }
         }
 
         // Close video modal
         function closeVideo() {
             const modal = document.getElementById('videoModal');
             const modalIframe = document.getElementById('modalIframe');
+            const embedWarning = document.getElementById('embedWarning');
             
             // Stop the iframe video by removing the src
             modalIframe.src = '';
+            modalIframe.style.display = 'block';
+            embedWarning.style.display = 'none';
             modal.style.display = 'none';
             document.body.style.overflow = 'auto';
         }
@@ -1018,11 +1063,6 @@
                 closeVideo();
             }
         });
-
-        // Handle image loading errors
-        function handleImageError(img) {
-            img.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMzMzIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPk5vIEltYWdlPC90ZXh0Pjwvc3ZnPg==';
-        }
     </script>
 </body>
 </html>
